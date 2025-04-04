@@ -43,7 +43,7 @@ export default function Home() {
             ANON AADHAAR
           </h6>
           <h2 className="text-[90px] font-rajdhani font-medium leading-none">
-            EXAMPLE VOTING APP
+            ANON AADHAAR TRIALS
           </h2>
           <div className="text-md mt-4 mb-8 text-[#717686]">
             This process ensures anonymity by utilizing the Aadhaar secure QR
