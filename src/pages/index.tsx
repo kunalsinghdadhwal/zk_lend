@@ -10,6 +10,7 @@ import clsx from "clsx";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { HeroStats } from "@/components/hero-stats";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
+import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
 // This is a trick to enable having both modes in under the same page.
 // This could be removed and only the <LaunchProveModal /> could be displayed.
 const LaunchMode = ({
@@ -59,14 +60,14 @@ export default function Home() {
           <h6 className="mb-6 bg-gradient-to-r from-purple-400 via-gold-400 to-purple-400 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-2xl">
             
           </h6>
-          <h2 className="mb-6 bg-gradient-to-r from-purple-400 via-gold-400 to-purple-400 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl">
+          <h2 className="mb-6 bg-gradient-to-r from-purple-400 via-gold-400 to-purple-400 bg-clip-text text-6xl font-bold tracking-tight text-transparent text-center sm:text-7xl md:text-7xl">
           <AuroraText>The Future of Decentralized Lending</AuroraText>
           </h2>
-          <div className="text-md mt-4 mb-8 text-[#717686]">
+          <div className="text-md text-center mt-4 mb-8 text-[#717686]">
           Secure, Transparent, Zero-Knowledge Lending
           </div>
 
-          <div className="flex w-full gap-8 mb-6">
+          <div className="flex w-full gap-8 mb-6 justify-center">
             <LaunchMode isTest={isTestMode} setIsTestMode={setIsTestMode} />
             {isConnected ? (
               <LaunchProveModal
@@ -81,18 +82,20 @@ export default function Home() {
                   borderColor: "#009A08",
                   color: "#009A08",
                   fontFamily: "rajdhani",
+          
                 }}
                 buttonTitle={
                   isTestMode ? "USE TEST CREDENTIALS" : "USE REAL CREDENTIALS"
                 }
               />
             ) : (
-              <button
+              
+              <InteractiveHoverButton
                 className="bg-purple-800 rounded-lg text-white px-6 py-1 font-rajdhani font-medium"
                 onClick={() => open()}
               >
                 CONNECT WALLET
-              </button>
+              </InteractiveHoverButton>
             )}
           </div>
         </div>

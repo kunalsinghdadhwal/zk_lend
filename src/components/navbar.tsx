@@ -7,6 +7,7 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import {Menu, X} from "lucide-react"
 import Link from "next/link"
 import { Button } from "./ui/button"
+import { InteractiveHoverButton } from "./magicui/interactive-hover-button";
 
 
 export function Navbar() {
@@ -80,12 +81,12 @@ export function Navbar() {
               Docs
             </Link>
             <div className="pt-2">
-              <button
+              <InteractiveHoverButton
                 className="bg-purple-800 rounded-lg text-white px-6 py-1 font-rajdhani font-medium"
                 onClick={() => open()}
               >
                 CONNECT WALLET
-              </button>
+              </InteractiveHoverButton>
             </div>
           </nav>
         </div>

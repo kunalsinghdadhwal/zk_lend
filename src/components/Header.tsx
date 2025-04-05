@@ -5,6 +5,7 @@ import { useWeb3Modal } from "@web3modal/wagmi/react";
 import { useAccount } from "wagmi";
 import { icons } from "../styles/illustrations";
 import { shortenAddress } from "@/utils";
+import { InteractiveHoverButton } from "./magicui/interactive-hover-button";
 
 export const Header: FunctionComponent = () => {
   const { isConnected, address } = useAccount();
@@ -37,12 +38,12 @@ export const Header: FunctionComponent = () => {
               {address && shortenAddress(address)}
             </button>
           ) : (
-            <button
+            <InteractiveHoverButton
               className="bg-purple-800 rounded-lg text-white px-6 py-1 font-rajdhani font-medium"
               onClick={() => open()}
             >
               CONNECT WALLET
-            </button>
+            </InteractiveHoverButton>
           )}
           {/* {isConnected && <Web3NetworkSwitch />} */}
         </div>
