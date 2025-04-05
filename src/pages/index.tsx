@@ -11,6 +11,7 @@ import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { HeroStats } from "@/components/hero-stats";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
+import { Header } from "@/components/Header";
 // This is a trick to enable having both modes in under the same page.
 // This could be removed and only the <LaunchProveModal /> could be displayed.
 const LaunchMode = ({
@@ -56,6 +57,7 @@ export default function Home() {
           "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
         )}
       />
+      
         <div className="max-w-4xl w-full">
           <h6 className="mb-6 bg-gradient-to-r from-purple-400 via-gold-400 to-purple-400 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-2xl">
             

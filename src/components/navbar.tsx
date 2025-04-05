@@ -1,3 +1,5 @@
+'use client'
+import { useRouter } from 'next/navigation'
 import { LaunchProveModal, useAnonAadhaar } from "@anon-aadhaar/react";
 import { useEffect, useContext, useState } from "react";
 import { useRouter } from "next/router";
