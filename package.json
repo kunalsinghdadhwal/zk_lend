@@ -12,12 +12,18 @@
     "@anon-aadhaar/core": "^2.4.2",
     "@anon-aadhaar/react": "^2.4.2",
     "@heroicons/react": "^2.0.18",
+    "@radix-ui/react-slot": "^1.1.2",
     "@tailwindcss/forms": "^0.5.7",
     "@tanstack/react-query": "^5.37.1",
     "@web3modal/wagmi": "^4.2.4-cn-webgl.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "dotenv": "^16.3.2",
+    "lucide-react": "^0.487.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "tailwind-merge": "^3.1.0",
+    "tailwindcss-animate": "^1.0.7",
     "viem": "^2.11.1",
     "wagmi": "^2.9.12"
   },
@@ -54,6 +60,5 @@
     "ts-node": "^10.9.2",
     "typechain": "^8.2.1",
     "typescript": "5.1.6"
-  },
-  "packageManager": "yarn@4.3.1"
+  }
 }
