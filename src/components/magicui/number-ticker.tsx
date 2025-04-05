@@ -1,41 +1,60 @@
 "use client";
 
-import { useInView, useMotionValue, useSpring } from "motion/react";
-import { ComponentPropsWithoutRef, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useMotionValue, useSpring, useInView } from "framer-motion";
+import { start } from "repl";
 
-import { cn } from "@/lib/utils";
-
-interface NumberTickerProps extends ComponentPropsWithoutRef<"span"> {
+interface NumberTickerProps {
   value: number;
-  startValue?: number;
+  className?: string;
   direction?: "up" | "down";
-  delay?: number;
   decimalPlaces?: number;
+  delay?: number;
+  startValue?: number;
+  check ?: string;
 }
 
 export function NumberTicker({
   value,
-  startValue = 1.2,
-  direction = "up",
-  delay = 0,
   className,
+  direction = "up",
   decimalPlaces = 1,
-  ...props
+  delay = 0,
+  startValue = 1,
+  check = "0",
 }: NumberTickerProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const motionValue = useMotionValue(direction === "down" ? value : startValue);
+  startValue = check === "0" ? 100 : startValue;
+  decimalPlaces = check === "0" ? 0 : decimalPlaces;
+  const motionValue = useMotionValue(direction === "up" ? startValue : value);
   const springValue = useSpring(motionValue, {
-    damping: 60,
-    stiffness: 400,
+    damping: 80,
+    stiffness: 700,
   });
-  const isInView = useInView(ref, { once: true, margin: "0px" });
+  const isInView = useInView(ref, { once: false }); // Changed to false to allow multiple animations
 
   useEffect(() => {
     if (isInView) {
-      const timer = setTimeout(() => {
+      // Initial animation
+      const initialTimer = setTimeout(() => {
         motionValue.set(direction === "down" ? startValue : value);
       }, delay * 1000);
-      return () => clearTimeout(timer);
+      
+      // Set up recurring animation every 5 seconds
+      const intervalTimer = setInterval(() => {
+        // Reset to start value
+        motionValue.set(direction === "up" ? startValue : value);
+        
+        // After a short delay, animate to the target value
+        setTimeout(() => {
+          motionValue.set(direction === "down" ? startValue : value);
+        }, 200);
+      }, 5000);
+      
+      return () => {
+        clearTimeout(initialTimer);
+        clearInterval(intervalTimer);
+      };
     }
   }, [motionValue, isInView, delay, value, direction, startValue]);
 
@@ -55,11 +74,8 @@ export function NumberTicker({
   return (
     <span
       ref={ref}
-      className={cn(
-        "inline-block tabular-nums tracking-wider text-black dark:text-white",
-        className,
-      )}
-      {...props}
+      className={className}
+      style={{ display: "inline-block" }}
     >
       {startValue}
     </span>

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 // import { AppContext } from "./_app";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import {Menu} from "lucide-react"
+import {Menu, X} from "lucide-react"
 import Link from "next/link"
 import { Button } from "./ui/button"
 
@@ -80,8 +80,8 @@ export function Navbar() {
               Docs
             </Link>
             <div className="pt-2">
-            <button
-                className="bg-[#009A08] rounded-lg text-white px-6 py-1 font-rajdhani font-medium"
+              <button
+                className="bg-purple-800 rounded-lg text-white px-6 py-1 font-rajdhani font-medium"
                 onClick={() => open()}
               >
                 CONNECT WALLET

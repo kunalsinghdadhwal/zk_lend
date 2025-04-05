@@ -66,7 +66,13 @@ export default function App({ Component, pageProps }: AppProps) {
         >
           <WagmiProvider config={wagmiConfig}>
             <QueryClientProvider client={queryClient}>
-              <AnonAadhaarProvider _useTestAadhaar={isTestMode}>
+              <AnonAadhaarProvider _useTestAadhaar={isTestMode}
+                _artifactslinks={{
+                  zkey_url: "/circuit_final.zkey",
+                  vkey_url: "/vkey.json",
+                  wasm_url: "/aadhaar-verifier.wasm",
+                }}             
+              >
                 <div className="relative min-h-screen flex flex-col justify-between">
                   <div className="flex-grow">
                     <Header />

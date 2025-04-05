@@ -31,7 +31,7 @@ export const Header: FunctionComponent = () => {
         <div className="flex m-5 items-center space-x-2">
           {isConnected ? (
             <button
-              className="bg-purple-800 rounded-lg text-[#009A08] px-6 py-1 border-2 border-[#009A08] font-rajdhani font-medium"
+              className="bg-purple-800 rounded-lg text-white px-6 py-1 border-2 font-rajdhani font-medium"
               onClick={() => open()}
             >
               {address && shortenAddress(address)}
