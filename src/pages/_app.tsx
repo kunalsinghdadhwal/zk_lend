@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import Head from "next/head";
 import { useState, useEffect, createContext } from "react";
 import type { AppProps } from "next/app";
-import { AnonAadhaarProvider } from "@anon-aadhaar/react";
+import { AnonAadhaarProvider, useAnonAadhaar, useProver } from "@anon-aadhaar/react";
 import { Header } from "../components/Header";
 import { WagmiProvider } from "wagmi";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
@@ -17,7 +17,6 @@ createWeb3Modal({
   wagmiConfig: wagmiConfig,
   projectId,
 });
-
 export const AppContext = createContext({
   isTestMode: false,
   setIsTestMode: (isTest: boolean) => {},
@@ -29,7 +28,14 @@ export default function App({ Component, pageProps }: AppProps) {
   const [ready, setReady] = useState(false);
   const [isTestMode, setIsTestMode] = useState<boolean>(false);
   const [voted, setVoted] = useState(false);
-
+  const [, latestProof] = useProver();
+  const [anonAadhaar] = useAnonAadhaar();
+  
+  useEffect(() => {
+      if (anonAadhaar.status === "logged-in") {
+        console.log(anonAadhaar.status);
+      }
+    }, [anonAadhaar]);
   useEffect(() => {
     setReady(true);
   }, []);
