@@ -1,14 +1,22 @@
 import "@/styles/globals.css";
-import Head from "next/head";
 import { useState, useEffect, createContext } from "react";
 import type { AppProps } from "next/app";
-import { AnonAadhaarProvider, useAnonAadhaar, useProver } from "@anon-aadhaar/react";
+import { AnonAadhaarProvider, useAnonAadhaar } from "@anon-aadhaar/react";
 import { Header } from "../components/Header";
-import { WagmiProvider } from "wagmi";
+import { WagmiProvider, useAccount } from "wagmi";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { Footer } from "@/components/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { wagmiConfig } from "../config";
+import { useZKPMapping } from "../hooks/useZKPMapping";
+
+export const AppContext = createContext<{
+  isDisplayed: boolean;
+  setIsDisplayed: (value: boolean) => void;
+}>({
+  isDisplayed: false,
+  setIsDisplayed: () => {},
+});
 
 const queryClient = new QueryClient();
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || "";
@@ -17,83 +25,52 @@ createWeb3Modal({
   wagmiConfig: wagmiConfig,
   projectId,
 });
-export const AppContext = createContext({
-  isTestMode: false,
-  setIsTestMode: (isTest: boolean) => {},
-  setVoted: (voted: boolean) => {},
-});
 
-export default function App({ Component, pageProps }: AppProps) {
-  const [isDisplayed, setIsDisplayed] = useState<boolean>(false);
-  const [ready, setReady] = useState(false);
-  const [isTestMode, setIsTestMode] = useState<boolean>(false);
-  const [voted, setVoted] = useState(false);
-  const [, latestProof] = useProver();
+function AppContent({ Component, pageProps }: AppProps) {
   const [anonAadhaar] = useAnonAadhaar();
-  
-  useEffect(() => {
-      if (anonAadhaar.status === "logged-in") {
-        console.log(anonAadhaar.status);
-      }
-    }, [anonAadhaar]);
-  useEffect(() => {
-    setReady(true);
-  }, []);
+  const { address } = useAccount();
+  const { mapWalletToZKP } = useZKPMapping();
 
   useEffect(() => {
-    if (voted) setIsDisplayed(true);
-  }, [voted]);
+    if (anonAadhaar.status === "logged-in" && address) {
+      const zkpData = {
+        nullifier: anonAadhaar.pcd.proof.nullifier,
+        proof: anonAadhaar.pcd.proof
+      };
+      mapWalletToZKP(address, zkpData);
+    }
+  }, [anonAadhaar.status, address, mapWalletToZKP]);
 
   return (
     <>
-      <Head>
-        <title>Anon Aadhaar Example</title>
-        <meta property="og:title" content="Anon Aadhaar Example" key="title" />
-        <meta
-          property="og:image"
-          content="https://anon-aadhaar-example.vercel.app/AnonAadhaarBanner.png"
-          key="image"
-        />
-        <meta
-          property="og:description"
-          name="description"
-          content="A Next.js example app that integrate the Anon Aadhaar SDK."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      {ready ? (
-        <AppContext.Provider
-          value={{
-            isTestMode,
-            setIsTestMode,
-            setVoted,
-          }}
-        >
-          <WagmiProvider config={wagmiConfig}>
-            <QueryClientProvider client={queryClient}>
-              <AnonAadhaarProvider _useTestAadhaar={isTestMode}
-                _artifactslinks={{
-                  zkey_url: "/circuit_final.zkey",
-                  vkey_url: "/vkey.json",
-                  wasm_url: "/aadhaar-verifier.wasm",
-                }}             
-              >
-                <div className="relative min-h-screen flex flex-col justify-between">
-                  <div className="flex-grow">
-                    <Header />
-                    <Component {...pageProps} />
-                  </div>
-                  <Footer
-                    isDisplayed={isDisplayed}
-                    setIsDisplayed={setIsDisplayed}
-                  />
-                </div>
-              </AnonAadhaarProvider>
-            </QueryClientProvider>
-          </WagmiProvider>
-        </AppContext.Provider>
-      ) : null}
+      <Header />
+      <Component {...pageProps} />
+      <Footer />
     </>
   );
 }
+
+function MyApp(props: AppProps) {
+  const [isDisplayed, setIsDisplayed] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  if (!isReady) return null;
+
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <AppContext.Provider value={{ isDisplayed, setIsDisplayed }}>
+          <AnonAadhaarProvider>
+            <AppContent {...props} />
+          </AnonAadhaarProvider>
+        </AppContext.Provider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+}
+
+export default MyApp;
