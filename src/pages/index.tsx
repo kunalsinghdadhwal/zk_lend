@@ -91,20 +91,19 @@ export default function Home() {
                 className="bg-purple-800 rounded-lg text-white px-6 py-1 font-rajdhani font-medium"
                 onClick={() => open()}
               >
-                CONNECT WALLET
+                Connect Wallet
               </button>
             )}
-      <div className="flex flex-col items-center gap-4 rounded-2xl max-w-screen-sm mx-auto p-8">
-        {/* Render the proof if generated and valid */}
-        {anonAadhaar.status === "logged-in" && (
-          <>
-            <p>✅ Proof is valid</p>
-            <p>Got your Aadhaar Identity Proof</p>
-            <>Welcome anon!</>
-            {latestProof && (
-              <AnonAadhaarProof code={JSON.stringify(latestProof, null, 2)} />
-            )}
-          </>
+            <div className="flex flex-col items-center gap-4 rounded-2xl max-w-screen-sm mx-auto p-8">
+            {anonAadhaar.status === "logged-in" && (
+              <>
+              <p>✅ Proof is valid</p>
+              <p>Got your Aadhaar Identity Proof</p>
+              <>Welcome anon!</>
+              {latestProof && (
+                <AnonAadhaarProof code={JSON.stringify(latestProof, null, 2)} />
+              )}
+            </>
         )}
       </div>
           </div>
