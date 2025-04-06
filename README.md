@@ -108,8 +108,7 @@ NEXT_PUBLIC_PROJECT_ID=53b1f48ccd106b3ab67a1a106da2aa2f
 NEXT_PUBLIC_RPC_URL=
 # Your wallet private key, used only in deployin contracts
 PRIVATE_KEY=
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_MONGODB_URI=
 ```
 
 ### Install
